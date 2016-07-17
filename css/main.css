@@ -122,11 +122,18 @@ header .author {
 .breadcrumb li:last-child a:after { border: 0; }
 .breadcrumb li a:hover { background: hsla(34,1%,50%,1); }
 .breadcrumb li a:hover:after { border-left-color: hsla(34,1%,50%,1) !important; }
+
+section.main-nav,
+article.component {
+    float: left;
+    padding: 2rem;
+}
+
 section {
-    width: 100%;
+    width: 30%;
     margin: 0 auto;
     padding: 2rem;
-    font-weight: 600
+    font-weight: 600;
 }
 
 
