@@ -1,0 +1,42 @@
+
+/*
+ * normalize.css is used to make browsers render all elements
+ * more consistently and with modern standards.
+ */
+
+.button,
+.button-md {
+    display: inline-block;
+    border: 1px solid #777;
+    font-size: 1rem;
+    padding: .6rem 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    background: rgba(45, 40, 26, 0.94);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.button:hover {
+    color: rgba(45,40,26,0.94);
+    background: #fff;
+    cursor: pointer;
+}
+.button:active {
+    background: rgba(45, 40, 26, 0.94);
+    color: #fff;
+    cursor: pointer;
+}
+
+.button-sm {
+    font-size: 0.75rem;
+    padding: .5rem .75rem;
+}
+/* button-md is default size and set above */
+.button-lg {
+    padding: 0.65rem 1.3rem;
+    font-size: 1.2rem;
+}
