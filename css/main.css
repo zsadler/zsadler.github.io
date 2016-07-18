@@ -63,13 +63,7 @@ header .author {
     font-size: 1.12rem;
 }
 
-section.main-nav,
-article.component {
-    float: left;
-    padding: 2rem;
-}
-
-section {
+section.main-nav {
     width: 30%;
     margin: 0 auto;
     padding: 2rem;
