@@ -1,4 +1,5 @@
 .breadcrumb {
+    border-bottom: 1px solid #c0c0c0;
     list-style: none;
     overflow: hidden;
     font-weight: 600;
