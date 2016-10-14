@@ -19,6 +19,7 @@ header {
 header .container {
     padding: 4rem 10% 0;
     position: relative;
+    z-index: 2;
 }
 header .hero {
     background: url(../images/ocean.jpg) no-repeat;
