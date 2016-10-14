@@ -30,6 +30,7 @@ header .hero {
     position: absolute;
     z-index: 0;
 }
+/* gradient image overlay */
 header .overlay {
     background: rgba(0,0,0,0.29);
     background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,0.29) 0%, rgba(0,0,0,0.75) 65%, rgba(36,36,36,0.99) 99%, rgba(36,36,36,1) 100%);
