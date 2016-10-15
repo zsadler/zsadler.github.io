@@ -29,7 +29,7 @@ header .hero {
 header.main-index,
 header.main-index .overlay,
 header.main-index .hero {
-    height: 400px;
+    height: 350px;
 }
 header .hero {
     background: url(../images/ocean.jpg) no-repeat;
