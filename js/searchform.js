@@ -1,7 +1,6 @@
 (function (window) {
     var searchForm = document.querySelector('#search'),
         inputMarkedEmpty = false,
-        inputLengthInvalid = false,
         selectMarkedInvalid = false,
         formMarkedInvalid = false;
 
@@ -44,7 +43,7 @@
             }
 
             if(inputMarkedEmpty && !isValidLength.valid) {
-                inputErrorEL.innerHTML = inputValid.msg;
+                inputErrorEL.innerHTML = "Search " + inputValid.msg;
             }
 
             if(!inputMarkedEmpty && !inputValid.valid) {

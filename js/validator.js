@@ -4,11 +4,17 @@
     };
 
     validator.isEmailAddress = function(input) {
-        if (!input) throw "Missing Parameter in isEmailAddress function: 'input'.";
-
         var at = input.indexOf('@'),
             dot = input.indexOf('.');
-        return dot !== -1 && at !== -1;
+
+        try {
+            if (!input) throw "Email address is required.";
+            if(dot === -1 && at === -1) throw "Must be a valid email address.";
+        } catch(err) {
+            return { valid: false, msg: err };
+        }
+
+        return true;
     };
 
     validator.isPhoneNumber = function(input) {
@@ -96,10 +102,16 @@
     };
 
     validator.isBeforeToday = function(input) {
-        if (!input) throw "Missing Parameter in isBeforeToday function: 'input'.";
-        if (isNaN(Date.parse(input))) throw "Invalid date(s) entered in isBeforeToday function: 'input'";
         var todaysDate = new Date();
-        return Date.parse(input) < todaysDate;
+
+        try{
+            if (!input) throw "Date is required";
+            if (isNaN(Date.parse(input))) throw "Invalid date entered.";
+            if( !(Date.parse(input) < todaysDate) ) throw "Date must be before todays date."
+        } catch(err) {
+            return { valid: false, msg: err };
+        }
+        return true;
     };
 
     validator.isAfterToday = function(input) {
@@ -165,11 +177,13 @@
     };
 
     validator.isOfLength = function(input, n) {
+        // don't want this to be a user error. This should be caught by the developer in the console
+        if (!n) throw "Missing Parameter passed into isOfLength function: 'n is not defined'.";
+        if (typeof n !== "number") throw "Must be a number.";
+
+        // These are user errors
         try {
-            if (!input) throw "Input is empty. ";
-            if (!n) throw "Missing Parameter passed into isOfLength function: 'n is not defined'.";
-            if (typeof n !== "number") throw "Parameter type is not of type number: 'n'.";
-            if (!(input.length >= n)) throw "Input must be at least "+n+" characters long."
+            if (!(input.length >= n)) throw "must be at least "+n+" characters long."
         } catch (err) {
             return { valid: false, msg: err };
         }
