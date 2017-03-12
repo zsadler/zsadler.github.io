@@ -4,7 +4,7 @@
 body {
     background-color: #fff;
     font-family: monospace, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 1.25px;
     line-height: 1.5;
     margin: 0;
@@ -72,7 +72,10 @@ header h2 {
     padding-top: 0.5rem;
 }
 header blockquote {
-    font-size: 1.02rem;
+    font-size: .85rem;
+    font-family: cursive;
+    font-weight: 100;
+    letter-spacing: 0.12rem;
     text-shadow: 1px 0px #777;
     width: 80%;
     margin: 0 auto;
@@ -87,7 +90,6 @@ header.main-index blockquote {
     display: block;
     text-align: right;
     padding-right: 5rem;
-    font-size: 1.12rem;
 }
 
 .main-nav {
@@ -114,6 +116,9 @@ header.main-index blockquote {
 i.fa {
     padding-top: 0.2rem;
     padding-right: 0.2rem;
+}
+i.fa.fa-home {
+    padding-right: 0;
 }
 footer {
     border-top: 1px solid #c0c0c0;
