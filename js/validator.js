@@ -110,7 +110,11 @@
     };
 
     validator.isEmpty = function(input) {
-        if (!input) throw "Missing Parameter in isEmpty function: 'input'.";
+        try {
+            if (!input) throw "Input is empty. ";
+        } catch (err) {
+            return { valid: false, msg: err };
+        }
         // passing null triggers my error flag and not false but if the error trap wasn't there this is how I'd account for it.
         if (input === null) {
             return false;
@@ -161,9 +165,15 @@
     };
 
     validator.isOfLength = function(input, n) {
-        if (!input || !n) throw "Missing Parameter(s) in isOfLength function: 'input and/or n'.";
-        if (typeof n !== "number") throw "Parameter type is not of type number: 'n'.";
-        return input.length >= n;
+        try {
+            if (!input) throw "Input is empty. ";
+            if (!n) throw "Missing Parameter passed into isOfLength function: 'n is not defined'.";
+            if (typeof n !== "number") throw "Parameter type is not of type number: 'n'.";
+            if (!(input.length >= n)) throw "Input must be at least "+n+" characters long."
+        } catch (err) {
+            return { valid: false, msg: err };
+        }
+        return true;
     };
 
     validator.countWords = function(input) {
@@ -344,5 +354,6 @@
         return input.split(' ').filter(n => n).join(' ') === input;
     };
 
-
+    // export validator to the window object.
+    window.validator = validator;
 })(window);
