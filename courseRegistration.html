@@ -119,10 +119,11 @@
             this.props.onChange(e);
         }
         render(){
-            let styleName = this.props.label.toLowerCase().replace(' ','-');
+            let styleName = this.props.label.toLowerCase().replace(' ','-'),
+                isrequired = this.props.isRequired ? 'required' : '';
             return (
                 <label className={styleName}>{this.props.label}
-                    <input name={this.props.name} type="text" onChange={this.handleChange} />
+                    <input name={this.props.name} type="text" onChange={this.handleChange} required={isrequired}/>
                 </label>
             )
         }
@@ -332,11 +333,11 @@
                 <div>
                     <h1>Course Registration</h1>
                     <form onSubmit={this.handleFormSubmit} >
-                        <ControlledInput label="First Name" name="fname" inputValue={this.state.fname} onChange={this.handleInputChange}/>
-                        <ControlledInput label="Last Name" name="lname" inputValue={this.state.lname} onChange={this.handleInputChange}/>
+                        <ControlledInput label="First Name" name="fname" inputValue={this.state.fname} onChange={this.handleInputChange} isRequired={true}/>
+                        <ControlledInput label="Last Name" name="lname" inputValue={this.state.lname} onChange={this.handleInputChange} isRequired={true}/>
 
-                        <SelectOptions name="activity" options={this.state.selectOptions} onChange={this.handleInputChange} />
-                        <CheckBoxes checked={this.state.checked} checkBoxes={this.state.checkBoxValues} onChange={this.handleInputChange} />
+                        <SelectOptions name="activity" options={this.state.selectOptions} onChange={this.handleInputChange} isRequired={false}/>
+                        <CheckBoxes checked={this.state.checked} checkBoxes={this.state.checkBoxValues} onChange={this.handleInputChange}  isRequired={false}/>
                         <button className="button is-info">Submit</button>
                     </form>
                     <div className="registered">
