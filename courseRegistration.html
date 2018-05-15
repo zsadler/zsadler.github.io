@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React App</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+      <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+      <script src="js/vendor/react.js"></script>
+      <script src="js/vendor/react-dom.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+
+      <style>
+          #root {
+              max-width: 950px;
+              width: 100%;
+              margin: 0 auto;
+              padding: 0 2rem;
+          }
+          form > *, label {
+              display: block;
+          }
+          label {
+              font-weight: bold;
+          }
+          .needs label {
+              font-weight: normal;
+          }
+          form input  {
+              display: block;
+              outline: none;
+              border: 1px solid #ddd;
+              border-radius: 2px;
+              margin-bottom: 1rem;
+              height: 30px;
+              width: 350px;
+              padding: calc(.375em - 1px) calc(.625em - 1px);
+          }
+          input[type="checkbox"] {
+              display: inline-block;
+              height: 15px;
+              width: 20px;
+              margin-bottom: 0;
+          }
+          div {
+              padding: 0 0 1rem;
+          }
+          h1 {
+              font-size: 3rem;
+              font-weight: 200;
+              border-bottom: 4px double #ededed;
+              padding: 3rem 0 0.5rem;
+              margin-bottom: 2rem;
+          }
+          h3 {
+              font-size: 1.5rem;
+              text-align: center;
+              font-weight: 200;
+              padding: 1rem;
+          }
+          h4, .select label {
+              margin: 0;
+              font-weight: bold;
+          }
+          .select {
+              margin-bottom: 2.75rem;
+          }
+          select {
+              display: block;
+              height: 2.5rem;
+              width: 350px;
+              outline: 0;
+              border: 1px solid #ddd;
+              border-radius: 0;
+              box-shadow: none;
+              background-color: transparent;
+              cursor: pointer;
+              color: rgba(0,0,0,.87);
+              padding: 0 1.5rem 0 0;
+          }
+          .button {
+              width: 200px;
+              margin-top: 1rem;
+          }
+          .registered {
+              margin: 3rem 0;
+              border-top: 10px dotted #eee;
+              border-bottom: 5px solid #eee;
+              padding: 1rem 0;
+              text-align: center;
+          }
+          .select:not(.is-multiple):not(.is-loading)::after {
+              bottom: -10px;
+              top: auto;
+          }
+          .headers.columns {
+              border-bottom: 1px solid #eee;
+              border-top: 1px solid #eee;
+              padding-bottom: 0;
+          }
+          .registered-list .columns {
+              margin-bottom: 0;
+              padding-bottom: 0;
+          }
+
+      </style>
+  </head>
+<body>
+
+    <div id="root"></div>
+
+<script type="text/babel">
+    class ControlledInput extends React.Component{
+        constructor(props){
+            super(props);
+            this.handleChange = this.handleChange.bind(this)
+        }
+        handleChange(e){
+            this.props.onChange(e);
+        }
+        render(){
+            let styleName = this.props.label.toLowerCase().replace(' ','-');
+            return (
+                <label className={styleName}>{this.props.label}
+                    <input name={this.props.name} type="text" onChange={this.handleChange} />
+                </label>
+            )
+        }
+    }
+
+    class SelectOptions extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+        }
+        handleChange(e) {
+            this.props.onChange(e);
+        }
+        render() {
+            let options = this.props.options.map((option, index) => {
+                return <option key={"option-" + option} value={option}>{option}</option>
+            });
+            return(<div className="select">
+                        <label>Select Activity:</label>
+                        <select name="activity" multiple={false} value={this.props.value}  onChange={this.handleChange}>
+                            {options}
+                        </select>
+                    </div>
+            )
+        }
+    }
+
+    class CheckBoxes extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this)
+        }
+
+        handleChange(e) {
+            this.props.onChange(e);
+        }
+
+        render() {
+            let checkboxes = this.props.checkBoxes.map((cbox) => {
+                let checkbox = cbox.split(")");
+                return <label key={checkbox[0]}>
+                    <input name={checkbox[0]} type="checkbox" value={checkbox[0]}
+                           onChange={this.handleChange}/>
+                    {cbox}
+                </label>
+            });
+
+            return (<div className="needs">
+                    <h4>Check all the apply:</h4>
+                    {checkboxes}
+                </div>
+
+            )
+        }
+    }
+
+    class ListRegistered extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+        }
+        handleChange(listPos) {
+            this.props.onChange(listPos);
+        }
+        render() {
+            let list = this.props.isRegistered.map((reg) => {
+                if(reg) {
+                    return <li className="columns" key={reg.listPos}>
+                        <div className="column">
+                            <a className="delete" onClick={ () => this.handleChange(reg.listPos)}></a>
+                        </div>
+                        <div className="column">
+                            {reg.fname}
+                        </div>
+                        <div className="column">
+                            {reg.lname}
+                        </div>
+                        <div className="column">
+                            {reg.activity}
+                        </div>
+                        <div className="column">
+                            {reg.restrictions.sort().join('/')}
+                        </div>
+                    </li>
+                }
+            });
+            return(
+                <ul className="registered-list">
+                    {list}
+                </ul>
+            )
+        }
+    }
+
+    function Headers(props) {
+        return (
+            <div className="headers columns">
+                {props.headers.map(header => {
+                    return (
+                        <div key={header.replace(' ','-').toLowerCase()} className="column">
+                            <h4>{header}</h4>
+                        </div>
+                    );
+                })}
+            </div>
+        )
+    }
+
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                checked: false,
+                selectOptions: ["Science Lab","Swimming","Cooking","Painting"],
+                checkBoxValues: ["a) Dietary Restrictions", "b) Physical Disabilities", "c) Medical Needs"],
+                headers: ["Remove","First Name","Last Name","Activity","Restrictions"],
+                fname: '',
+                lname: '',
+                activity: 'Science Lab',
+                restrictions: [],
+                isRegistered: [{ // Some sample data we can append to
+                        listPos: 0,
+                        fname: 'John',
+                        lname: 'Smith',
+                        activity: 'Cooking',
+                        restrictions: ['-']
+                    },
+                    {
+                        listPos: 1,
+                        fname: 'Jane',
+                        lname: 'Doe',
+                        activity: 'Swimming',
+                        restrictions: ['a','b']
+                    }
+                ]
+
+            };
+            this.handleInputChange = this.handleInputChange.bind(this);
+            this.handleFormSubmit = this.handleFormSubmit.bind(this);
+            this.handleClearForm = this.handleClearForm.bind(this);
+            this.handleRemoveItem = this.handleRemoveItem.bind(this);
+        }
+
+        handleInputChange(e) {
+            const target = e.target;
+
+            if (target.type === 'checkbox') {
+                const newSelection = e.target.value;
+                let newSelectionArray;
+
+                if(this.state.restrictions.indexOf(newSelection) > -1) {
+                    newSelectionArray = this.state.restrictions.filter(s => s !== newSelection)
+                } else {
+                    newSelectionArray = [...this.state.restrictions, newSelection];
+                }
+                this.setState({ restrictions: newSelectionArray });
+
+            } else {
+                const name = target.name;
+                const value = target.value;
+                this.setState({[name]: value});
+            }
+
+        }
+        handleFormSubmit(e) {
+            e.preventDefault();
+            let newlyRegistered, reg = this.state.isRegistered;
+            // the following is react best practice of using destructuring vs. push() method
+            newlyRegistered = [...reg, {
+                listPos: reg.length,
+                fname: this.state.fname,
+                lname: this.state.lname,
+                activity: this.state.activity,
+                restrictions: this.state.restrictions ? this.state.restrictions : '-'
+            }];
+
+            this.setState({isRegistered: newlyRegistered});
+            this.handleClearForm(e)
+        }
+        handleClearForm(e) {
+            e.preventDefault();
+            // reset form fields
+            e.currentTarget.reset();
+            // reset State
+            this.setState({
+                fname: '',
+                lname: '',
+                activity: 'Science Lab',
+                restrictions: []
+            });
+
+        }
+        handleRemoveItem(listPos) {
+            let updatedRegList = this.state.isRegistered;
+            // remove registered user
+            updatedRegList.splice(listPos,1);
+            // update id's
+            updatedRegList.map((reg, index) => {
+                return reg.listPos = index
+            });
+            this.setState({isRegistered: updatedRegList});
+        }
+
+        render() {
+            return (
+                <div>
+                    <h1>Course Registration</h1>
+                    <form onSubmit={this.handleFormSubmit} >
+                        <ControlledInput label="First Name" name="fname" inputValue={this.state.fname} onChange={this.handleInputChange}/>
+                        <ControlledInput label="Last Name" name="lname" inputValue={this.state.lname} onChange={this.handleInputChange}/>
+
+                        <SelectOptions name="activity" options={this.state.selectOptions} onChange={this.handleInputChange} />
+                        <CheckBoxes checked={this.state.checked} checkBoxes={this.state.checkBoxValues} onChange={this.handleInputChange} />
+                        <button className="button is-info">Submit</button>
+                    </form>
+                    <div className="registered">
+                        <h3>Class Roster</h3>
+                         <Headers headers={this.state.headers} />
+                        <ListRegistered isRegistered={this.state.isRegistered} onChange={this.handleRemoveItem} />
+                    </div>
+                </div>
+
+            )
+        }
+    }
+
+    ReactDOM.render (
+        <App />,
+        document.getElementById("root")
+    )
+</script>
+</body>
+</html>
